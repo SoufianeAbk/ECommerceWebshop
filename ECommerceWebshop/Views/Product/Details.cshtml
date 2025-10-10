@@ -1,0 +1,94 @@
+﻿@model ECommerceWebshop.Models.Product
+@{
+    ViewData["Title"] = Model.Name;
+    var relatedProducts = ViewData["RelatedProducts"] as IEnumerable<ECommerceWebshop.Models.Product>;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Product" asp-action="Index">Producten</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Product" asp-action="Index" asp-route-categoryId="@Model.CategoryId">@Model.Category?.Name</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-6">
+        <img src="@Model.ImageUrl" class="img-fluid" alt="@Model.Name">
+    </div>
+    <div class="col-md-6">
+        <h1>@Model.Name</h1>
+        <p class="text-muted">Categorie: @Model.Category?.Name</p>
+        <hr>
+        <p>@Model.Description</p>
+        
+        <div class="mb-3">
+            <span class="h3 text-primary">€ @Model.Price.ToString("F2")</span>
+        </div>
+        
+        <div class="mb-3">
+            @if (Model.Stock > 0)
+            {
+                <span class="badge bg-success">Op voorraad (@Model.Stock stuks)</span>
+            }
+            else
+            {
+                <span class="badge bg-danger">Uitverkocht</span>
+            }
+        </div>
+        
+        @if (Model.Stock > 0)
+        {
+            <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label for="quantity" class="form-label">Aantal:</label>
+                        <input type="number" name="quantity" id="quantity" class="form-control" 
+                               value="1" min="1" max="@Model.Stock" />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-cart-plus"></i> Toevoegen aan Winkelwagen
+                </button>
+            </form>
+        }
+        else
+        {
+            <button class="btn btn-secondary btn-lg" disabled>
+                Uitverkocht
+            </button>
+        }
+        
+        <div class="mt-4">
+            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Terug naar Producten
+            </a>
+        </div>
+    </div>
+</div>
+
+@if (relatedProducts != null && relatedProducts.Any())
+{
+    <hr class="my-5">
+    
+    <h3>Gerelateerde Producten</h3>
+    <div class="row">
+        @foreach (var product in relatedProducts)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
+                    <div class="card-body">
+                        <h6 class="card-title">@product.Name</h6>
+                        <p class="text-primary">€ @product.Price.ToString("F2")</p>
+                        <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-sm btn-outline-primary">
+                            Bekijk Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
