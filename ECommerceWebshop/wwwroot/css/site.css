@@ -1,31 +1,102 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #f8f9fa;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* Card styles */
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+
+/* Product images */
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Cart badge */
+#cartCount {
+    position: relative;
+    top: -5px;
+    margin-left: 5px;
+    font-size: 0.75rem;
+}
+
+/* Buttons */
+.btn {
+    transition: all 0.3s;
+}
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+/* Category cards */
+.category-card {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+    .category-card:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+/* Form styles */
+.form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+/* Table styles */
+.table img {
+    border-radius: 4px;
+}
+
+/* Badge styles */
+.badge {
+    padding: 0.35em 0.65em;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1.5rem;
 }
