@@ -1,0 +1,89 @@
+﻿@model List<ECommerceWebshop.Models.CartItem>
+@{
+    ViewData["Title"] = "Winkelwagen";
+    decimal total = (decimal)(ViewData["CartTotal"] ?? 0m);
+}
+
+<h1>Winkelwagen</h1>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        <h4>Uw winkelwagen is leeg</h4>
+        <p>Begin met winkelen en voeg producten toe aan uw winkelwagen.</p>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-primary">
+            <i class="bi bi-shop"></i> Ga Winkelen
+        </a>
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Naam</th>
+                    <th>Prijs</th>
+                    <th>Aantal</th>
+                    <th>Subtotaal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="@item.ImageUrl" alt="@item.ProductName" style="width: 80px; height: 60px; object-fit: cover;">
+                        </td>
+                        <td>@item.ProductName</td>
+                        <td>€ @item.Price.ToString("F2")</td>
+                        <td>
+                            <form asp-action="UpdateQuantity" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@item.ProductId" />
+                                <div class="input-group" style="width: 120px;">
+                                    <input type="number" name="quantity" value="@item.Quantity" 
+                                           min="1" class="form-control form-control-sm" />
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </td>
+                        <td>€ @item.Total.ToString("F2")</td>
+                        <td>
+                            <form asp-action="RemoveFromCart" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@item.ProductId" />
+                                <button type="submit" class="btn btn-sm btn-danger" 
+                                        onclick="return confirm('Weet u zeker dat u dit product wilt verwijderen?')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="4" class="text-end">Totaal:</th>
+                    <th>€ @total.ToString("F2")</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Verder Winkelen
+            </a>
+        </div>
+        <div class="col-md-6 text-end">
+            <a asp-action="Checkout" class="btn btn-success btn-lg">
+                <i class="bi bi-credit-card"></i> Afrekenen
+            </a>
+        </div>
+    </div>
+}
