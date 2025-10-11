@@ -2,6 +2,7 @@
 using ECommerceWebshop.Data;
 using ECommerceWebshop.Models;
 using ECommerceWebshop.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceWebshop.Controllers
 {
