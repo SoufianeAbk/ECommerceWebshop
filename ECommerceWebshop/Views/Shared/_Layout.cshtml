@@ -88,11 +88,11 @@
                                 <h3>Quick Links</h3>
                             </div>
                             <ul>
-                                <li><a href="#">Over ons</a></li>
-                                <li><a href="#">Veelgestelde Vragen</a></li>
-                                <li><a href="#">Verzending & Levering</a></li>
-                                <li><a href="#">Algemene Voorwaarden</a></li>
-                                <li><a href="#">Privacy Beleid</a></li>
+                                <li><a asp-controller="Home" asp-action="About">Over ons</a></li>
+                                <li><a asp-controller="Home" asp-action="FAQ">Veelgestelde Vragen</a></li>
+                                <li><a asp-controller="Home" asp-action="Shipping">Verzending & Levering</a></li>
+                                <li><a asp-controller="Home" asp-action="Terms">Algemene Voorwaarden</a></li>
+                                <li><a asp-controller="Home" asp-action="Privacy">Privacy Beleid</a></li>
                             </ul>
                         </div>
                     </div>
@@ -138,11 +138,11 @@
                     <div class="col-xl-6 col-lg-6 d-none d-lg-block text-right">
                         <div class="footer-menu">
                             <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Terms</a></li>
-                                <li><a href="#">Privacy</a></li>
-                                <li><a href="#">Policy</a></li>
-                                <li><a href="#">Contact</a></li>
+                                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                                <li><a asp-controller="Home" asp-action="Terms">Terms</a></li>
+                                <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                                <li><a asp-controller="Home" asp-action="Shipping">Policy</a></li>
+                                <li><a asp-controller="Home" asp-action="About">Contact</a></li>
                             </ul>
                         </div>
                     </div>

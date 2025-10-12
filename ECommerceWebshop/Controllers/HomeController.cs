@@ -28,5 +28,35 @@ namespace ECommerceWebshop.Controllers
 
             return View();
         }
+
+        // Over Ons pagina
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        // Veelgestelde Vragen pagina
+        public IActionResult FAQ()
+        {
+            return View();
+        }
+
+        // Verzending & Levering pagina
+        public IActionResult Shipping()
+        {
+            return View();
+        }
+
+        // Algemene Voorwaarden pagina
+        public IActionResult Terms()
+        {
+            return View();
+        }
+
+        // Privacy Beleid pagina
+        public IActionResult Privacy()
+        {
+            return View();
+        }
     }
 }

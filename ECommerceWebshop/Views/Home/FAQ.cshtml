@@ -1,0 +1,187 @@
+﻿@{
+    ViewData["Title"] = "Veelgestelde Vragen";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Veelgestelde Vragen</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4">Veelgestelde Vragen</h1>
+    <p class="lead mb-5">Hier vindt u antwoorden op de meest gestelde vragen. Staat uw vraag er niet bij? Neem gerust contact met ons op!</p>
+
+    <div class="accordion" id="faqAccordion">
+        
+        <!-- Bestellen & Betalen -->
+        <div class="card mb-3">
+            <div class="card-header" id="headingOrdering">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left h5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOrdering" aria-expanded="true">
+                        <i class="bi bi-cart"></i> Bestellen & Betalen
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseOrdering" class="collapse show" data-bs-parent="#faqAccordion">
+                <div class="card-body">
+                    <h6>Hoe plaats ik een bestelling?</h6>
+                    <p>Het plaatsen van een bestelling is eenvoudig. Voeg producten toe aan uw winkelwagen, ga naar de winkelwagen en klik op "Afrekenen". Vul uw gegevens in en kies uw betalingsmethode om de bestelling af te ronden.</p>
+
+                    <h6>Welke betaalmethoden accepteren jullie?</h6>
+                    <p>Wij accepteren de volgende betaalmethoden:</p>
+                    <ul>
+                        <li>iDEAL</li>
+                        <li>Credit Card (Visa, Mastercard, American Express)</li>
+                        <li>PayPal</li>
+                        <li>Bancontact</li>
+                    </ul>
+
+                    <h6>Ontvang ik een orderbevestiging?</h6>
+                    <p>Ja, direct na uw bestelling ontvangt u een orderbevestiging per e-mail met alle details van uw aankoop en een bestelnummer.</p>
+
+                    <h6>Kan ik mijn bestelling nog wijzigen of annuleren?</h6>
+                    <p>Zolang uw bestelling nog niet is verzonden, kunt u deze annuleren of wijzigen door contact op te nemen met onze klantenservice. Vermeld hierbij uw bestelnummer.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verzending & Levering -->
+        <div class="card mb-3">
+            <div class="card-header" id="headingShipping">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed h5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseShipping">
+                        <i class="bi bi-truck"></i> Verzending & Levering
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseShipping" class="collapse" data-bs-parent="#faqAccordion">
+                <div class="card-body">
+                    <h6>Wat zijn de verzendkosten?</h6>
+                    <p>Verzending is gratis bij bestellingen vanaf €50. Voor bestellingen onder de €50 rekenen wij €4,95 verzendkosten.</p>
+
+                    <h6>Hoe lang duurt de levering?</h6>
+                    <p>Bestellingen geplaatst voor 22:00 uur worden dezelfde werkdag nog verzonden. De levertijd is normaal gesproken 2-3 werkdagen binnen België.</p>
+
+                    <h6>Kan ik mijn bestelling volgen?</h6>
+                    <p>Ja, zodra uw bestelling is verzonden ontvangt u een track & trace code per e-mail waarmee u uw pakket kunt volgen.</p>
+
+                    <h6>Leveren jullie ook internationaal?</h6>
+                    <p>Momenteel leveren wij alleen binnen België en Nederland. Voor andere landen kunt u contact opnemen met onze klantenservice.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Retourneren & Ruilen -->
+        <div class="card mb-3">
+            <div class="card-header" id="headingReturns">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed h5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReturns">
+                        <i class="bi bi-arrow-clockwise"></i> Retourneren & Ruilen
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseReturns" class="collapse" data-bs-parent="#faqAccordion">
+                <div class="card-body">
+                    <h6>Wat is de retourperiode?</h6>
+                    <p>U heeft 30 dagen bedenktijd. Binnen deze periode kunt u zonder opgave van reden uw aankoop retourneren.</p>
+
+                    <h6>Hoe retourneer ik een product?</h6>
+                    <p>Neem contact op met onze klantenservice om een retour aan te vragen. U ontvangt dan een retourlabel dat u op het pakket kunt plakken. Stuur het pakket terug en zodra wij het ontvangen hebben, wordt het bedrag teruggestort.</p>
+
+                    <h6>Wanneer krijg ik mijn geld terug?</h6>
+                    <p>Na ontvangst en controle van de retourzending wordt het bedrag binnen 14 dagen teruggestort op de rekening waarmee u heeft betaald.</p>
+
+                    <h6>Moet ik de retourkosten betalen?</h6>
+                    <p>Voor de eerste retour zijn de kosten voor onze rekening. Bij meerdere retourzendingen kunnen wij u vragen de retourkosten zelf te dragen.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account & Privacy -->
+        <div class="card mb-3">
+            <div class="card-header" id="headingAccount">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed h5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAccount">
+                        <i class="bi bi-person"></i> Account & Privacy
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseAccount" class="collapse" data-bs-parent="#faqAccordion">
+                <div class="card-body">
+                    <h6>Heb ik een account nodig om te bestellen?</h6>
+                    <p>Nee, u kunt ook als gast bestellen. Met een account kunt u echter gemakkelijker uw bestellingen volgen en sneller afrekenen bij een volgende aankoop.</p>
+
+                    <h6>Hoe veilig zijn mijn gegevens?</h6>
+                    <p>Wij nemen uw privacy zeer serieus. Uw gegevens worden versleuteld opgeslagen en nooit met derden gedeeld zonder uw toestemming. Lees meer in ons <a asp-action="Privacy">Privacybeleid</a>.</p>
+
+                    <h6>Kan ik mijn wachtwoord wijzigen?</h6>
+                    <p>Ja, na het inloggen kunt u in uw accountinstellingen uw wachtwoord wijzigen.</p>
+
+                    <h6>Kan ik mijn account verwijderen?</h6>
+                    <p>Ja, u kunt uw account op elk moment verwijderen door contact op te nemen met onze klantenservice.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Producten & Voorraad -->
+        <div class="card mb-3">
+            <div class="card-header" id="headingProducts">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed h5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProducts">
+                        <i class="bi bi-box"></i> Producten & Voorraad
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseProducts" class="collapse" data-bs-parent="#faqAccordion">
+                <div class="card-body">
+                    <h6>Zijn alle producten op voorraad?</h6>
+                    <p>Bij elk product staat vermeld of het op voorraad is. Producten die niet op voorraad zijn, worden als "Uitverkocht" gemarkeerd.</p>
+
+                    <h6>Wanneer is een uitverkocht product weer leverbaar?</h6>
+                    <p>De verwachte levertijd van uitverkochte producten staat meestal bij het product vermeld. U kunt ook contact opnemen met onze klantenservice voor meer informatie.</p>
+
+                    <h6>Zijn de productfoto's representatief?</h6>
+                    <p>Wij doen ons best om de producten zo accuraat mogelijk weer te geven. Echter kunnen kleuren iets afwijken door verschillende schermweergaves.</p>
+
+                    <h6>Bieden jullie garantie op producten?</h6>
+                    <p>Alle producten hebben minimaal de wettelijke garantie. Sommige producten hebben een uitgebreide fabrieksgarantie. Dit staat vermeld bij de productinformatie.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card mt-5 mb-5">
+        <div class="card-body text-center">
+            <h3 class="h4 mb-3">Staat uw vraag er niet bij?</h3>
+            <p>Neem gerust contact op met onze klantenservice. Wij helpen u graag verder!</p>
+            <div class="mt-3">
+                <p><i class="bi bi-telephone"></i> <strong>+32 (0)48 123 4567</strong></p>
+                <p><i class="bi bi-envelope"></i> <strong>info@shopbe.com</strong></p>
+                <p><i class="bi bi-clock"></i> Ma-Vr: 9:00 - 18:00 | Za: 10:00 - 16:00</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .accordion .btn-link {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+    }
+    .accordion .btn-link:hover {
+        color: #667eea;
+    }
+    .accordion h6 {
+        font-weight: 600;
+        color: #667eea;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    .accordion h6:first-child {
+        margin-top: 0;
+    }
+</style>

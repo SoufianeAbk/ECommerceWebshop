@@ -1,6 +1,273 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Privacybeleid";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Privacybeleid</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4">Privacybeleid</h1>
+    <p class="text-muted mb-5"><small>Laatste update: Januari 2025</small></p>
+
+    <div class="alert alert-info mb-4">
+        <i class="bi bi-shield-check"></i> ECommerce Webshop respecteert uw privacy en zorgt ervoor dat uw persoonlijke gegevens vertrouwelijk worden behandeld conform de AVG (Algemene Verordening Gegevensbescherming).
+    </div>
+
+    <!-- Inleiding -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">1. Inleiding</h2>
+        </div>
+        <div class="card-body">
+            <p>Dit privacybeleid is van toepassing op de verwerking van persoonsgegevens door ECommerce Webshop. In dit privacybeleid leggen wij uit welke persoonsgegevens wij verzamelen, waarom wij deze gegevens verzamelen en hoe wij deze gebruiken.</p>
+            <p><strong>Verantwoordelijke voor de gegevensverwerking:</strong></p>
+            <p>
+                ECommerce Webshop<br>
+                Nieuwstraat 123<br>
+                1000 Brussel, België<br>
+                E-mail: privacy@shopbe.com
+            </p>
+        </div>
+    </div>
+
+    <!-- Welke gegevens verzamelen wij -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">2. Welke Persoonsgegevens Verzamelen Wij?</h2>
+        </div>
+        <div class="card-body">
+            <p>Wij verzamelen verschillende soorten persoonsgegevens, afhankelijk van hoe u onze diensten gebruikt:</p>
+
+            <h6>Bij het plaatsen van een bestelling:</h6>
+            <ul>
+                <li>Voor- en achternaam</li>
+                <li>Adresgegevens (straat, huisnummer, postcode, woonplaats)</li>
+                <li>E-mailadres</li>
+                <li>Telefoonnummer</li>
+                <li>Betaalgegevens (deze worden direct verwerkt door onze beveiligde betaalprovider)</li>
+            </ul>
+
+            <h6>Bij het aanmaken van een account:</h6>
+            <ul>
+                <li>Gebruikersnaam en wachtwoord (versleuteld opgeslagen)</li>
+                <li>Bestelgeschiedenis</li>
+                <li>Voorkeuren en instellingen</li>
+            </ul>
+
+            <h6>Automatisch verzamelde gegevens:</h6>
+            <ul>
+                <li>IP-adres</li>
+                <li>Browsertype en versie</li>
+                <li>Gebruikte apparaat</li>
+                <li>Datum en tijd van websitebezoek</li>
+                <li>Bekeken pagina's</li>
+                <li>Cookies (zie artikel 7)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Doeleinden -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">3. Waarvoor Gebruiken Wij Uw Gegevens?</h2>
+        </div>
+        <div class="card-body">
+            <p>Wij gebruiken uw persoonsgegevens voor de volgende doeleinden:</p>
+
+            <h6>Uitvoering van de overeenkomst:</h6>
+            <ul>
+                <li>Het verwerken en verzenden van uw bestellingen</li>
+                <li>Het afhandelen van betalingen</li>
+                <li>Communicatie over uw bestelling (orderbevestiging, verzendstatus, etc.)</li>
+                <li>Klantenservice en afhandeling van klachten</li>
+            </ul>
+
+            <h6>Wettelijke verplichtingen:</h6>
+            <ul>
+                <li>Voldoen aan fiscale verplichtingen</li>
+                <li>Fraudepreventie</li>
+            </ul>
+
+            <h6>Legitiem belang:</h6>
+            <ul>
+                <li>Verbetering van onze dienstverlening en website</li>
+                <li>Analyse van gebruikersgedrag (geanonimiseerd)</li>
+                <li>Beveiliging van onze systemen</li>
+            </ul>
+
+            <h6>Met uw toestemming:</h6>
+            <ul>
+                <li>Het versturen van nieuwsbrieven en marketingcommunicatie</li>
+                <li>Gepersonaliseerde aanbiedingen</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Bewaartermijn -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">4. Hoe Lang Bewaren Wij Uw Gegevens?</h2>
+        </div>
+        <div class="card-body">
+            <p>Wij bewaren uw persoonsgegevens niet langer dan noodzakelijk voor de doeleinden waarvoor zij zijn verzameld:</p>
+            <ul>
+                <li><strong>Bestelgegevens:</strong> 7 jaar (vanwege fiscale wetgeving)</li>
+                <li><strong>Accountgegevens:</strong> Tot u uw account verwijdert</li>
+                <li><strong>Nieuwsbriefgegevens:</strong> Tot u zich uitschrijft</li>
+                <li><strong>Websitebezoek (analytics):</strong> Geanonimiseerd na 26 maanden</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Delen van gegevens -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">5. Met Wie Delen Wij Uw Gegevens?</h2>
+        </div>
+        <div class="card-body">
+            <p>Wij delen uw persoonsgegevens alleen indien dit noodzakelijk is:</p>
+
+            <h6>Verwerkers (partijen die in onze opdracht gegevens verwerken):</h6>
+            <ul>
+                <li><strong>Verzendpartners</strong> (bpost, PostNL) - voor levering van uw bestelling</li>
+                <li><strong>Betaalproviders</strong> (iDEAL, PayPal) - voor afhandeling van betalingen</li>
+                <li><strong>E-mailserviceprovider</strong> - voor het versturen van orderbevestigingen</li>
+                <li><strong>Hostingprovider</strong> - voor het hosten van onze website</li>
+            </ul>
+
+            <p>Al deze partijen hebben een verwerkersovereenkomst getekend en zijn verplicht uw gegevens veilig en vertrouwelijk te behandelen.</p>
+
+            <h6>Overheid en andere partijen:</h6>
+            <p>In sommige gevallen kunnen wij verplicht zijn uw gegevens te delen met overheden, bijvoorbeeld op grond van een gerechtelijk bevel of om te voldoen aan wettelijke verplichtingen.</p>
+
+            <p><strong>Wij verkopen uw gegevens nooit aan derden voor marketingdoeleinden.</strong></p>
+        </div>
+    </div>
+
+    <!-- Beveiliging -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">6. Beveiliging van Uw Gegevens</h2>
+        </div>
+        <div class="card-body">
+            <p>Wij nemen de bescherming van uw gegevens serieus en hebben passende technische en organisatorische maatregelen getroffen om uw persoonsgegevens te beschermen tegen verlies, misbruik en ongeoorloofde toegang:</p>
+            <ul>
+                <li>SSL/TLS-versleuteling voor alle gegevensoverdracht</li>
+                <li>Versleutelde opslag van wachtwoorden</li>
+                <li>Beveiligde servers met firewall-bescherming</li>
+                <li>Regelmatige security audits en updates</li>
+                <li>Toegangsbeperking tot persoonsgegevens (alleen geautoriseerd personeel)</li>
+                <li>Two-factor authenticatie voor beheerders</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Cookies -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">7. Cookies</h2>
+        </div>
+        <div class="card-body">
+            <p>Onze website maakt gebruik van cookies. Een cookie is een klein tekstbestand dat bij het eerste bezoek aan deze website wordt opgeslagen op uw computer, tablet of smartphone.</p>
+
+            <h6>Wij gebruiken verschillende soorten cookies:</h6>
+
+            <p><strong>Functionele cookies:</strong></p>
+            <p>Deze cookies zijn noodzakelijk voor de basisfunctionaliteit van de website, zoals het bijhouden van uw winkelwagen.</p>
+
+            <p><strong>Analytische cookies:</strong></p>
+            <p>Deze cookies helpen ons begrijpen hoe bezoekers de website gebruiken, zodat wij onze website kunnen verbeteren.</p>
+
+            <p><strong>Marketing cookies:</strong></p>
+            <p>Deze cookies worden alleen geplaatst met uw toestemming en worden gebruikt om relevante advertenties te tonen.</p>
+
+            <h6>Cookies beheren:</h6>
+            <p>U kunt cookies uitschakelen via uw browserinstellingen. Houd er rekening mee dat sommige delen van de website mogelijk niet goed werken als u cookies uitschakelt.</p>
+        </div>
+    </div>
+
+    <!-- Uw rechten -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">8. Uw Rechten</h2>
+        </div>
+        <div class="card-body">
+            <p>U heeft de volgende rechten met betrekking tot uw persoonsgegevens:</p>
+
+            <ul>
+                <li><strong>Recht op inzage:</strong> U heeft het recht om te weten welke persoonsgegevens wij van u verwerken</li>
+                <li><strong>Recht op rectificatie:</strong> U heeft het recht om onjuiste of onvolledige gegevens te laten corrigeren</li>
+                <li><strong>Recht op verwijdering:</strong> U kunt verzoeken om uw gegevens te laten verwijderen</li>
+                <li><strong>Recht op beperking:</strong> U kunt verzoeken om de verwerking van uw gegevens te beperken</li>
+                <li><strong>Recht op overdraagbaarheid:</strong> U heeft het recht om uw gegevens in een gestructureerd formaat te ontvangen</li>
+                <li><strong>Recht van bezwaar:</strong> U heeft het recht om bezwaar te maken tegen de verwerking van uw gegevens</li>
+                <li><strong>Recht om toestemming in te trekken:</strong> U kunt uw toestemming voor gegevensverwerking op elk moment intrekken</li>
+            </ul>
+
+            <p>Om gebruik te maken van deze rechten kunt u contact met ons opnemen via <a href="mailto:privacy@shopbe.com">privacy@shopbe.com</a></p>
+        </div>
+    </div>
+
+    <!-- Klachten -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">9. Klachten</h2>
+        </div>
+        <div class="card-body">
+            <p>Mocht u een klacht hebben over de verwerking van uw persoonsgegevens, dan horen wij dit graag. U kunt contact met ons opnemen via privacy@shopbe.com.</p>
+            <p>U heeft ook het recht om een klacht in te dienen bij de Gegevensbeschermingsautoriteit (GBA):</p>
+            <p>
+                <strong>Gegevensbeschermingsautoriteit</strong><br>
+                Drukpersstraat 35<br>
+                1000 Brussel<br>
+                Tel: +32 (0)2 274 48 00<br>
+                E-mail: contact@apd-gba.be<br>
+                Website: <a href="https://www.gegevensbeschermingsautoriteit.be" target="_blank">www.gegevensbeschermingsautoriteit.be</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Minderjarigen -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">10. Minderjarigen</h2>
+        </div>
+        <div class="card-body">
+            <p>Onze website is niet bedoeld voor personen jonger dan 16 jaar. Wij verzamelen niet bewust gegevens van minderjarigen. Indien u minderjarig bent, adviseren wij u om eerst toestemming te vragen aan uw ouders of voogd voordat u persoonsgegevens aan ons verstrekt.</p>
+        </div>
+    </div>
+
+    <!-- Wijzigingen -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">11. Wijzigingen in dit Privacybeleid</h2>
+        </div>
+        <div class="card-body">
+            <p>Wij behouden ons het recht voor om wijzigingen aan te brengen in dit privacybeleid. De meest recente versie is altijd te vinden op deze pagina. Wij adviseren u om regelmatig deze pagina te raadplegen, zodat u op de hoogte blijft van eventuele wijzigingen.</p>
+            <p><strong>Laatste wijziging:</strong> Januari 2025</p>
+        </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="card mb-5">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">12. Contact</h2>
+        </div>
+        <div class="card-body">
+            <p>Heeft u vragen over dit privacybeleid of over hoe wij omgaan met uw persoonsgegevens? Neem dan contact met ons op:</p>
+            <p>
+                <strong>ECommerce Webshop</strong><br>
+                Nieuwstraat 123<br>
+                1000 Brussel, België
+            </p>
+            <p>
+                <i class="bi bi-envelope"></i> <a href="mailto:privacy@shopbe.com">privacy@shopbe.com</a><br>
+                <i class="bi bi-telephone"></i> +32 (0)48 123 4567
+            </p>
+        </div>
+    </div>
+</div>
