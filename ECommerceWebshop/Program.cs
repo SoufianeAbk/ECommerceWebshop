@@ -8,15 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// ✅ GEBRUIK ALLEEN ApplicationIdentityDbContext
-builder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
+// DbContext configuratie - NU ALLEEN ApplicationDbContext
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseInMemoryDatabase("ECommerceDB"));
 
-// ✅ Registreer ApplicationIdentityDbContext ook als ApplicationDbContext voor backwards compatibility
-builder.Services.AddScoped<ApplicationDbContext>(provider =>
-    provider.GetRequiredService<ApplicationIdentityDbContext>());
-
-// Add Identity - gebruikt nu de juiste DbContext
+// Add Identity - gebruikt ApplicationDbContext
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     // Password settings
@@ -40,7 +36,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 })
-.AddEntityFrameworkStores<ApplicationIdentityDbContext>()
+.AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
 // Configure Cookie settings
@@ -64,13 +60,13 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-// ✅ Seed de database (alleen één keer)
+// Seed de database
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
 
-    // Seed Identity database (bevat nu alles)
-    var context = services.GetRequiredService<ApplicationIdentityDbContext>();
+    // Zorg dat database bestaat
     context.Database.EnsureCreated();
 
     // Seed Identity data (roles en users)
