@@ -1,0 +1,78 @@
+﻿@model ECommerceWebshop.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Mijn Profiel";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4"><i class="bi bi-person-circle"></i> Mijn Profiel</h1>
+
+        <div class="card shadow-lg mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-person"></i> Persoonlijke Informatie</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <i class="bi bi-person-circle display-1 text-primary"></i>
+                    <h3 class="mt-2">@Model.FirstName @Model.LastName</h3>
+                    <p class="text-muted">Geregistreerd sinds @Model.RegistrationDate.ToString("dd MMMM yyyy")</p>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold"><i class="bi bi-envelope"></i> E-mail</label>
+                        <input type="text" class="form-control" value="@Model.Email" readonly />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold"><i class="bi bi-telephone"></i> Telefoon</label>
+                        <input type="text" class="form-control" value="@(string.IsNullOrEmpty(Model.PhoneNumber) ? "Niet ingevuld" : Model.PhoneNumber)" readonly />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold"><i class="bi bi-house"></i> Adres</label>
+                    <input type="text" class="form-control" value="@(string.IsNullOrEmpty(Model.Address) ? "Niet ingevuld" : Model.Address)" readonly />
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label fw-bold"><i class="bi bi-geo-alt"></i> Stad</label>
+                        <input type="text" class="form-control" value="@(string.IsNullOrEmpty(Model.City) ? "Niet ingevuld" : Model.City)" readonly />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Postcode</label>
+                        <input type="text" class="form-control" value="@(string.IsNullOrEmpty(Model.PostalCode) ? "Niet ingevuld" : Model.PostalCode)" readonly />
+                    </div>
+                </div>
+
+                <div class="alert alert-info mt-3">
+                    <i class="bi bi-info-circle"></i>
+                    <strong>Let op:</strong> Als je je profielinformatie wilt wijzigen, neem dan contact op met onze klantenservice.
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Terug naar Home
+            </a>
+            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-box-arrow-right"></i> Uitloggen
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 20px;
+        border: none;
+    }
+
+    .form-control {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+    }
+</style>

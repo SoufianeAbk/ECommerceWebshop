@@ -1,0 +1,123 @@
+﻿@model ECommerceWebshop.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Registreren";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <i class="bi bi-person-plus-fill display-1 text-primary"></i>
+                    <h2 class="mt-3">Maak een Account</h2>
+                    <p class="text-muted">Sluit je aan bij onze community</p>
+                </div>
+
+                <form asp-action="Register" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FirstName" class="form-label">Voornaam</label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="LastName" class="form-label">Achternaam</label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">
+                            <i class="bi bi-envelope"></i> E-mail
+                        </label>
+                        <input asp-for="Email" class="form-control" placeholder="uw@email.com" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Password" class="form-label">
+                                <i class="bi bi-lock"></i> Wachtwoord
+                            </label>
+                            <input asp-for="Password" class="form-control" placeholder="Minimaal 6 tekens" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label">
+                                <i class="bi bi-lock-fill"></i> Bevestig Wachtwoord
+                            </label>
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+                    <h5 class="mb-3">Optionele Gegevens</h5>
+
+                    <div class="mb-3">
+                        <label asp-for="PhoneNumber" class="form-label">
+                            <i class="bi bi-telephone"></i> Telefoonnummer
+                        </label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Address" class="form-label">
+                            <i class="bi bi-house"></i> Adres
+                        </label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label asp-for="City" class="form-label">Stad</label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="PostalCode" class="form-label">Postcode</label>
+                            <input asp-for="PostalCode" class="form-control" />
+                            <span asp-validation-for="PostalCode" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                        <i class="bi bi-check-circle"></i> Registreren
+                    </button>
+
+                    <div class="text-center">
+                        <p class="mb-0">Al een account? <a asp-action="Login" class="text-primary fw-bold">Login hier</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .card {
+        border-radius: 20px;
+        border: none;
+    }
+
+    .form-control {
+        border-radius: 15px;
+        padding: 12px;
+    }
+
+    .btn-lg {
+        border-radius: 15px;
+        padding: 15px;
+    }
+</style>
