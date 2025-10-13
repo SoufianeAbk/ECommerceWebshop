@@ -1,0 +1,152 @@
+﻿@model List<ECommerceWebshop.Controllers.UserViewModel>
+@{
+    ViewData["Title"] = "Gebruikersbeheer";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1><i class="bi bi-people"></i> Gebruikersbeheer</h1>
+            <a asp-action="Dashboard" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Terug naar Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0"><i class="bi bi-list"></i> Alle Gebruikers (@Model.Count)</h4>
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Naam</th>
+                            <th>E-mail</th>
+                            <th>Telefoon</th>
+                            <th>Rol</th>
+                            <th>Registratiedatum</th>
+                            <th>Acties</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <i class="bi bi-person-circle"></i>
+                                    <strong>@user.FirstName @user.LastName</strong>
+                                </td>
+                                <td>@user.Email</td>
+                                <td>@(string.IsNullOrEmpty(user.PhoneNumber) ? "-" : user.PhoneNumber)</td>
+                                <td>
+                                    @if (user.Roles.Contains("Admin"))
+                                    {
+                                        <span class="badge bg-danger">@user.Roles</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-primary">@user.Roles</span>
+                                    }
+                                </td>
+                                <td>@user.RegistrationDate.ToString("dd-MM-yyyy")</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a asp-action="UserDetails" asp-route-id="@user.Id"
+                                           class="btn btn-sm btn-info text-white">
+                                            <i class="bi bi-eye"></i> Details
+                                        </a>
+                                        @if (!user.Roles.Contains("Admin") || Model.Count(u => u.Roles.Contains("Admin")) > 1)
+                                        {
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal"
+                                                    data-user-id="@user.Id"
+                                                    data-user-name="@user.FirstName @user.LastName">
+                                                <i class="bi bi-trash"></i> Verwijder
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="bi bi-people display-1 text-muted"></i>
+                <p class="text-muted mt-3">Geen gebruikers gevonden</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    <i class="bi bi-exclamation-triangle"></i> Gebruiker Verwijderen
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Weet je zeker dat je <strong id="userName"></strong> wilt verwijderen?</p>
+                <p class="text-danger"><i class="bi bi-info-circle"></i> Deze actie kan niet ongedaan worden gemaakt.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuleren</button>
+                <form id="deleteForm" method="post" asp-action="DeleteUser" class="d-inline">
+                    <input type="hidden" name="id" id="userIdToDelete" />
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Ja, Verwijder
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var userId = button.getAttribute('data-user-id');
+            var userName = button.getAttribute('data-user-name');
+
+            document.getElementById('userName').textContent = userName;
+            document.getElementById('userIdToDelete').value = userId;
+        });
+    </script>
+}
+
+<style>
+    .table td {
+        vertical-align: middle;
+    }
+</style>

@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+    var totalUsers = (int)(ViewData["TotalUsers"] ?? 0);
+    var totalOrders = (int)(ViewData["TotalOrders"] ?? 0);
+    var totalRevenue = (decimal)(ViewData["TotalRevenue"] ?? 0);
+    var recentOrders = ViewData["RecentOrders"] as List<ECommerceWebshop.Models.Order> ?? new List<ECommerceWebshop.Models.Order>();
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-speedometer2"></i> Admin Dashboard</h1>
+            <div class="btn-group">
+                <a asp-action="Users" class="btn btn-primary">
+                    <i class="bi bi-people"></i> Gebruikers Beheren
+                </a>
+                <a asp-action="Orders" class="btn btn-secondary">
+                    <i class="bi bi-cart-check"></i> Alle Bestellingen
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card stats-card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-subtitle mb-2">Totaal Gebruikers</h6>
+                        <h2 class="card-title mb-0">@totalUsers</h2>
+                    </div>
+                    <div class="stats-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card stats-card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-subtitle mb-2">Totaal Bestellingen</h6>
+                        <h2 class="card-title mb-0">@totalOrders</h2>
+                    </div>
+                    <div class="stats-icon">
+                        <i class="bi bi-cart-check"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card stats-card bg-warning text-dark">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-subtitle mb-2">Totale Omzet</h6>
+                        <h2 class="card-title mb-0">€ @totalRevenue.ToString("N2")</h2>
+                    </div>
+                    <div class="stats-icon">
+                        <i class="bi bi-currency-euro"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Orders -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0"><i class="bi bi-clock-history"></i> Recente Bestellingen</h4>
+            </div>
+            <div class="card-body">
+                @if (recentOrders.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Bestelnummer</th>
+                                    <th>Klant</th>
+                                    <th>Datum</th>
+                                    <th>Items</th>
+                                    <th>Totaal</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in recentOrders)
+                                {
+                                    <tr>
+                                        <td><strong>@order.OrderNumber</strong></td>
+                                        <td>@order.FirstName @order.LastName</td>
+                                        <td>@order.OrderDate.ToString("dd-MM-yyyy HH:mm")</td>
+                                        <td>@order.OrderItems.Count items</td>
+                                        <td class="text-success fw-bold">€ @order.TotalAmount.ToString("F2")</td>
+                                        <td>
+                                            <span class="badge bg-info">@order.Status</span>
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Cart" asp-action="OrderConfirmation" asp-route-id="@order.Id"
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-eye"></i> Details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox display-1 text-muted"></i>
+                        <p class="text-muted mt-3">Nog geen bestellingen</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .stats-card {
+        border-radius: 15px;
+        border: none;
+        transition: transform 0.3s ease;
+    }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .stats-icon {
+        font-size: 3rem;
+        opacity: 0.3;
+    }
+
+    .card-subtitle {
+        opacity: 0.9;
+        font-size: 0.9rem;
+    }
+</style>
