@@ -97,6 +97,18 @@ namespace ECommerceWebshop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // POST: Cart/ClearCart - NIEUWE METHODE
+        [HttpPost]
+        public IActionResult ClearCart()
+        {
+            // Verwijder alle items uit de winkelwagen
+            HttpContext.Session.Remove("Cart");
+
+            TempData["Success"] = "Alle items zijn uit de winkelwagen verwijderd.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: Cart/Checkout
         public IActionResult Checkout()
         {
