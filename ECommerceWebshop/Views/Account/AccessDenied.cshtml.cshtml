@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Toegang Geweigerd";
+}
+
+< div class= "container" >
+    < div class= "row justify-content-center mt-5" >
+        < div class= "col-md-8 col-lg-6" >
+            < div class= "card shadow-lg border-0" >
+                < div class= "card-body text-center p-5" >
+                    < div class= "mb-4" >
+                        < i class= "bi bi-shield-exclamation display-1 text-danger" ></ i >
+                    </ div >
+
+
+                    < h1 class= "display-4 text-danger mb-3" > Toegang Geweigerd </ h1 >
+
+
+                    < p class= "lead mb-4" >
+                        U heeft geen toestemming om deze pagina te bekijken.
+                    </p>
+                    
+                    <div class= "alert alert-warning" role = "alert" >
+                        < i class= "bi bi-info-circle" ></ i >
+                        < strong > Let op:</ strong > Deze pagina is alleen toegankelijk voor geautoriseerde gebruikers met de juiste rechten.
+                    </div>
+                    
+                    <p class= "text-muted mb-4" >
+                        Mogelijke redenen:
+                    </ p >
+                    < ul class= "list-unstyled text-muted mb-4" >
+                        < li >< i class= "bi bi-x-circle text-danger" ></ i > U bent niet ingelogd</li>
+                        <li><i class= "bi bi-x-circle text-danger" ></ i > Uw account heeft onvoldoende rechten</li>
+                        <li><i class= "bi bi-x-circle text-danger" ></ i > Deze pagina is alleen voor administrators </ li >
+                    </ ul >
+
+
+                    < div class= "d-grid gap-2 d-md-flex justify-content-md-center" >
+                        < a asp - controller = "Home" asp - action = "Index" class= "btn btn-primary btn-lg" >
+                            < i class= "bi bi-house" ></ i > Terug naar Home
+                        </a>
+                        <a asp-controller= "Account" asp-action= "Login" class= "btn btn-outline-secondary btn-lg" >
+                            < i class= "bi bi-box-arrow-in-right" ></ i > Inloggen
+                        </ a >
+                    </ div >
+                </ div >
+            </ div >
+
+
+            < div class= "text-center mt-4" >
+                < p class= "text-muted" >
+                    < i class= "bi bi-question-circle" ></ i >
+                    Denkt u dat dit een fout is? 
+                    <a href="mailto:info@shopbe.com" class= "text-primary" > Neem contact met ons op</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 20px;
+animation: fadeIn 0.5s ease-in;
+    }
+
+    @@keyframes fadeIn
+{
+    from
+    {
+    opacity: 0;
+    transform: translateY(-20px);
+    }
+    to
+    {
+    opacity: 1;
+    transform: translateY(0);
+    }
+}
+
+    .btn - lg {
+    border - radius: 15px;
+padding: 12px 30px;
+}
+</ style >

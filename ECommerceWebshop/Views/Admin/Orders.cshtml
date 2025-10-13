@@ -1,6 +1,124 @@
-﻿namespace ECommerceWebshop.Views.Admin
-{
-    public class Class
-    {
-    }
+﻿@model List<ECommerceWebshop.Models.Order>
+@{
+    ViewData["Title"] = "Alle Bestellingen";
 }
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1><i class="bi bi-cart-check"></i> Alle Bestellingen</h1>
+            <a asp-action="Dashboard" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Terug naar Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0"><i class="bi bi-list"></i> Overzicht Bestellingen (@Model.Count)</h4>
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Bestelnummer</th>
+                            <th>Klant</th>
+                            <th>E-mail</th>
+                            <th>Datum</th>
+                            <th>Items</th>
+                            <th>Totaal</th>
+                            <th>Status</th>
+                            <th>Acties</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td><strong>@order.OrderNumber</strong></td>
+                                <td>@order.FirstName @order.LastName</td>
+                                <td>@order.Email</td>
+                                <td>@order.OrderDate.ToString("dd-MM-yyyy HH:mm")</td>
+                                <td>@order.OrderItems.Count items</td>
+                                <td class="text-success fw-bold">€ @order.TotalAmount.ToString("F2")</td>
+                                <td>
+                                    @if (order.Status == "Processing")
+                                    {
+                                        <span class="badge bg-info">@order.Status</span>
+                                    }
+                                    else if (order.Status == "Shipped")
+                                    {
+                                        <span class="badge bg-primary">@order.Status</span>
+                                    }
+                                    else if (order.Status == "Delivered")
+                                    {
+                                        <span class="badge bg-success">@order.Status</span>
+                                    }
+                                    else if (order.Status == "Cancelled")
+                                    {
+                                        <span class="badge bg-danger">@order.Status</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@order.Status</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-controller="Cart" asp-action="OrderConfirmation" asp-route-id="@order.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Summary Statistics -->
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h6>Totaal Bestellingen</h6>
+                            <h3>@Model.Count</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h6>Totale Omzet</h6>
+                            <h3>€ @Model.Sum(o => o.TotalAmount).ToString("N2")</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h6>Gemiddelde Bestelwaarde</h6>
+                            <h3>€ @(Model.Any() ? (Model.Sum(o => o.TotalAmount) / Model.Count).ToString("N2") : "0.00")</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="bi bi-inbox display-1 text-muted"></i>
+                <p class="text-muted mt-3">Geen bestellingen gevonden</p>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .table td {
+        vertical-align: middle;
+    }
+</style>
