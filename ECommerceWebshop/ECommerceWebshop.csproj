@@ -7,6 +7,26 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Remove="Views\Account\Login.cshtml" />
+	  <Content Remove="Views\Account\Profile.cshtml" />
+	  <Content Remove="Views\Account\Register.cshtml" />
+	  <Content Remove="Views\Admin\Dashboard.cshtml" />
+	  <Content Remove="Views\Admin\Orders.cshtml" />
+	  <Content Remove="Views\Admin\UserDetails.cshtml" />
+	  <Content Remove="Views\Admin\Users.cshtml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Include="Views\Account\Login.cshtml" />
+	  <Compile Include="Views\Account\Profile.cshtml" />
+	  <Compile Include="Views\Account\Register.cshtml" />
+	  <Compile Include="Views\Admin\Dashboard.cshtml" />
+	  <Compile Include="Views\Admin\Orders.cshtml" />
+	  <Compile Include="Views\Admin\UserDetails.cshtml" />
+	  <Compile Include="Views\Admin\Users.cshtml" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
