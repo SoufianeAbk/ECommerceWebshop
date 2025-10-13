@@ -42,10 +42,62 @@
                             </a>
                         </li>
                     </ul>
-                    <form class="d-flex">
+
+                    <!-- Search Form -->
+                    <form class="d-flex me-3">
                         <input class="form-control me-2" type="search" placeholder="Zoeken..." aria-label="Search">
                         <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
                     </form>
+
+                    <!-- Login/Logout Section -->
+                    <ul class="navbar-nav">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle hover-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle"></i> @User.Identity.Name
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Account" asp-action="Profile">
+                                            <i class="bi bi-person"></i> Mijn Profiel
+                                        </a>
+                                    </li>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Admin" asp-action="Dashboard">
+                                                <i class="bi bi-speedometer2"></i> Admin Dashboard
+                                            </a>
+                                        </li>
+                                    }
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form asp-controller="Account" asp-action="Logout" method="post" class="px-3 py-2">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-outline-danger btn-sm w-100">
+                                                <i class="bi bi-box-arrow-right"></i> Uitloggen
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link hover-link" asp-controller="Account" asp-action="Login">
+                                    <i class="bi bi-box-arrow-in-right"></i> Inloggen
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link hover-link" asp-controller="Account" asp-action="Register">
+                                    <i class="bi bi-person-plus"></i> Registreren
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>
