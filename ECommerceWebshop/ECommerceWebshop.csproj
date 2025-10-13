@@ -19,5 +19,4 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
-</Project>	  <Content Remove="Views\Account\AccessDenied.cshtml.cshtml" />
-	  <Compile Include="Views\Account\AccessDenied.cshtml.cshtml" />
+</Project>

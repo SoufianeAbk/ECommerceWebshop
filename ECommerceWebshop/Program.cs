@@ -1,4 +1,4 @@
-using ECommerceWebshop.Data;
+﻿using ECommerceWebshop.Data;
 using ECommerceWebshop.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,15 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add Entity Framework with In-Memory database (for development)
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+// ✅ GEBRUIK ALLEEN ApplicationIdentityDbContext
+builder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
     options.UseInMemoryDatabase("ECommerceDB"));
 
-// Add Identity DbContext (separate voor Identity tables)
-builder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
-    options.UseInMemoryDatabase("ECommerceIdentityDB"));
+// ✅ Registreer ApplicationIdentityDbContext ook als ApplicationDbContext voor backwards compatibility
+builder.Services.AddScoped<ApplicationDbContext>(provider =>
+    provider.GetRequiredService<ApplicationIdentityDbContext>());
 
-// Add Identity
+// Add Identity - gebruikt nu de juiste DbContext
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     // Password settings
@@ -64,20 +64,16 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-// Seed the databases
+// ✅ Seed de database (alleen één keer)
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    // Seed regular database (products, categories)
-    var context = services.GetRequiredService<ApplicationDbContext>();
+    // Seed Identity database (bevat nu alles)
+    var context = services.GetRequiredService<ApplicationIdentityDbContext>();
     context.Database.EnsureCreated();
 
-    // Seed Identity database (users, roles)
-    var identityContext = services.GetRequiredService<ApplicationIdentityDbContext>();
-    identityContext.Database.EnsureCreated();
-
-    // Seed Identity data (roles and users)
+    // Seed Identity data (roles en users)
     await IdentityDataSeeder.SeedRolesAndUsersAsync(services);
 }
 
