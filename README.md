@@ -5,7 +5,6 @@ Dit project demonstreert een moderne online winkel met gebruikersbeheer, product
 
 📑 Inhoudsopgave
 
-Overzicht
 
 Features
 Technologieën
@@ -232,5 +231,3 @@ Order tracking
 Productvoorraadbeheer
 Exportfuncties (Excel/PDF)
 Gebruikersstatistieken
-
-Extra AI Hulp : https://chatgpt.com/c/68ee33ae-8c44-8332-8f42-8dba8df37305
