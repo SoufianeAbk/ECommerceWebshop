@@ -2,6 +2,7 @@
 using ECommerceWebshop.Data;
 using ECommerceWebshop.Models;
 using ECommerceWebshop.Helpers;
+using ECommerceWebshop.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceWebshop.Controllers
@@ -9,10 +10,12 @@ namespace ECommerceWebshop.Controllers
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly InvoiceService _invoiceService;
 
-        public CartController(ApplicationDbContext context)
+        public CartController(ApplicationDbContext context, InvoiceService invoiceService)
         {
             _context = context;
+            _invoiceService = invoiceService;
         }
 
         // GET: Cart
@@ -97,15 +100,12 @@ namespace ECommerceWebshop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: Cart/ClearCart - NIEUWE METHODE
+        // POST: Cart/ClearCart
         [HttpPost]
         public IActionResult ClearCart()
         {
-            // Verwijder alle items uit de winkelwagen
             HttpContext.Session.Remove("Cart");
-
             TempData["Success"] = "Alle items zijn uit de winkelwagen verwijderd.";
-
             return RedirectToAction(nameof(Index));
         }
 
@@ -168,6 +168,20 @@ namespace ECommerceWebshop.Controllers
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
 
+                // ========== NIEUWE CODE: GENEREER PDF FACTUUR ==========
+                try
+                {
+                    string invoicePath = _invoiceService.GenerateInvoice(order);
+                    TempData["InvoicePath"] = invoicePath;
+                    TempData["Success"] = $"Bestelling succesvol geplaatst! Uw factuur is gegenereerd.";
+                }
+                catch (Exception ex)
+                {
+                    // Log de fout maar ga door met de bestelling
+                    TempData["Warning"] = $"Bestelling succesvol, maar factuur kon niet worden gegenereerd: {ex.Message}";
+                }
+                // ========================================================
+
                 // Clear cart
                 HttpContext.Session.Remove("Cart");
 
@@ -193,7 +207,32 @@ namespace ECommerceWebshop.Controllers
                 return NotFound();
             }
 
+            // Check of er een factuur bestaat voor deze bestelling
+            ViewData["InvoiceExists"] = _invoiceService.InvoiceExists(order.OrderNumber);
+
             return View(order);
+        }
+
+        // GET: Cart/DownloadInvoice
+        public IActionResult DownloadInvoice(string orderNumber)
+        {
+            if (string.IsNullOrEmpty(orderNumber))
+            {
+                return BadRequest("Bestelnummer is verplicht");
+            }
+
+            string invoicePath = _invoiceService.GetInvoicePath(orderNumber);
+
+            if (string.IsNullOrEmpty(invoicePath) || !System.IO.File.Exists(invoicePath))
+            {
+                TempData["Error"] = "Factuur niet gevonden";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var fileBytes = System.IO.File.ReadAllBytes(invoicePath);
+            var fileName = Path.GetFileName(invoicePath);
+
+            return File(fileBytes, "application/pdf", fileName);
         }
 
         // GET: Cart/GetCartCount
