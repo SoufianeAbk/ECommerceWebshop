@@ -1,5 +1,6 @@
 ﻿using ECommerceWebshop.Data;
 using ECommerceWebshop.Models;
+using ECommerceWebshop.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,6 +58,10 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+// ========== NIEUWE CODE: Registreer InvoiceService ==========
+builder.Services.AddScoped<InvoiceService>();
+// ============================================================
 
 var app = builder.Build();
 

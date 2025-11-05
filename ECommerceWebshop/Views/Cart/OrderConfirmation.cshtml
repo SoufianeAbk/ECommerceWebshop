@@ -1,19 +1,45 @@
 ﻿@model ECommerceWebshop.Models.Order
 @{
     ViewData["Title"] = "Bestelling Bevestigd";
+    var invoiceExists = (bool)(ViewData["InvoiceExists"] ?? false);
 }
 
 <div class="text-center mb-5">
     <i class="bi bi-check-circle text-success" style="font-size: 5rem;"></i>
     <h1 class="mt-3">Bedankt voor uw bestelling!</h1>
     <p class="lead">Uw bestelling is succesvol geplaatst en wordt zo snel mogelijk verwerkt.</p>
+
+    @* Succesbericht van factuur generatie *@
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            <i class="bi bi-check-circle"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Warning"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> @TempData["Warning"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
 </div>
 
 <div class="row">
     <div class="col-md-8 mx-auto">
         <div class="card">
-            <div class="card-header">
-                <h4>Bestelgegevens</h4>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Bestelgegevens</h4>
+                @* Download factuur knop *@
+                @if (invoiceExists)
+                {
+                    <a asp-action="DownloadInvoice" asp-route-orderNumber="@Model.OrderNumber"
+                       class="btn btn-primary btn-sm">
+                        <i class="bi bi-download"></i> Download Factuur (PDF)
+                    </a>
+                }
             </div>
             <div class="card-body">
                 <div class="row mb-3">
@@ -26,7 +52,7 @@
                         @Model.OrderDate.ToString("dd-MM-yyyy HH:mm")
                     </div>
                 </div>
-                
+
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <strong>Status:</strong><br>
@@ -37,9 +63,19 @@
                         <span class="h5 text-primary">€ @Model.TotalAmount.ToString("F2")</span>
                     </div>
                 </div>
-                
+
+                @* Factuur notificatie *@
+                @if (invoiceExists)
+                {
+                    <div class="alert alert-info">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <strong>Factuur beschikbaar!</strong>
+                        Uw factuur is succesvol gegenereerd en kan worden gedownload.
+                    </div>
+                }
+
                 <hr>
-                
+
                 <h5>Verzendadres</h5>
                 <p>
                     @Model.FirstName @Model.LastName<br>
@@ -48,9 +84,9 @@
                     <strong>E-mail:</strong> @Model.Email<br>
                     <strong>Telefoon:</strong> @Model.Phone
                 </p>
-                
+
                 <hr>
-                
+
                 <h5>Bestelde Producten</h5>
                 <table class="table table-sm">
                     <thead>
@@ -79,7 +115,7 @@
                         </tr>
                     </tfoot>
                 </table>
-                
+
                 <div class="alert alert-info mt-4">
                     <i class="bi bi-info-circle"></i>
                     <strong>Wat gebeurt er nu?</strong><br>
@@ -88,18 +124,46 @@
                         <li>Wij gaan uw bestelling verwerken</li>
                         <li>U ontvangt een mail zodra uw bestelling is verzonden</li>
                         <li>Verwachte levertijd: 2-3 werkdagen</li>
+                        @if (invoiceExists)
+                        {
+                            <li><strong>Uw factuur kan worden gedownload via de knop hierboven</strong></li>
+                        }
                     </ul>
                 </div>
             </div>
         </div>
-        
+
         <div class="text-center mt-4">
-            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+            @if (invoiceExists)
+            {
+                <a asp-action="DownloadInvoice" asp-route-orderNumber="@Model.OrderNumber"
+                   class="btn btn-success btn-lg">
+                    <i class="bi bi-file-earmark-pdf"></i> Download Factuur
+                </a>
+            }
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg">
                 <i class="bi bi-house"></i> Terug naar Home
             </a>
-            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary">
+            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary btn-lg">
                 <i class="bi bi-shop"></i> Verder Winkelen
             </a>
         </div>
     </div>
 </div>
+
+<style>
+    .alert {
+        border-radius: 10px;
+    }
+
+    .card {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .btn-lg {
+        border-radius: 25px;
+        padding: 0.75rem 1.5rem;
+    }
+</style>
