@@ -18,7 +18,7 @@ namespace ECommerceWebshop.Services
 
             try
             {
-                // QuestPDF licentie instellen (Community licentie is gratis voor niet-commercieel gebruik)
+                // QuestPDF licentie instellen (Community licentie is gratis pour niet-commercieel gebruik)
                 QuestPDF.Settings.License = LicenseType.Community;
                 _logger.LogInformation("✅ QuestPDF Community License activated");
             }
@@ -68,6 +68,8 @@ namespace ECommerceWebshop.Services
             try
             {
                 _logger.LogInformation($"📄 Starting invoice generation for order {order.OrderNumber}");
+                _logger.LogInformation($"📁 Invoices directory: {_invoicesDirectory}");
+                _logger.LogInformation($"📁 Directory exists: {Directory.Exists(_invoicesDirectory)}");
 
                 // Validatie
                 if (order == null)
@@ -88,6 +90,13 @@ namespace ECommerceWebshop.Services
                 string filePath = Path.Combine(_invoicesDirectory, fileName);
 
                 _logger.LogInformation($"📝 Generating PDF to: {filePath}");
+
+                // Vérifier que le répertoire existe
+                if (!Directory.Exists(_invoicesDirectory))
+                {
+                    _logger.LogWarning($"⚠️ Directory does not exist, creating: {_invoicesDirectory}");
+                    Directory.CreateDirectory(_invoicesDirectory);
+                }
 
                 // Genereer PDF met QuestPDF
                 Document.Create(container =>
@@ -267,12 +276,29 @@ namespace ECommerceWebshop.Services
 
                 _logger.LogInformation($"✅ Invoice generated successfully: {fileName}");
                 _logger.LogInformation($"📁 Full path: {filePath}");
+
+                // Vérifier que le fichier a été créé
+                if (System.IO.File.Exists(filePath))
+                {
+                    var fileInfo = new System.IO.FileInfo(filePath);
+                    _logger.LogInformation($"✅ File verified - Size: {fileInfo.Length} bytes");
+                }
+                else
+                {
+                    _logger.LogWarning($"⚠️ File not found after generation: {filePath}");
+                }
+
                 return filePath;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"❌ Fout bij genereren factuur: {ex.Message}");
+                _logger.LogError($"Exception Type: {ex.GetType().Name}");
                 _logger.LogError($"Stack trace: {ex.StackTrace}");
+                if (ex.InnerException != null)
+                {
+                    _logger.LogError($"Inner Exception: {ex.InnerException.Message}");
+                }
                 throw new Exception($"Fout bij genereren factuur: {ex.Message}", ex);
             }
         }
@@ -281,6 +307,12 @@ namespace ECommerceWebshop.Services
         {
             try
             {
+                if (string.IsNullOrEmpty(orderNumber))
+                {
+                    _logger.LogWarning("⚠️ OrderNumber is null or empty");
+                    return string.Empty;
+                }
+
                 var files = Directory.GetFiles(_invoicesDirectory, $"Factuur_{orderNumber}_*.pdf");
                 if (files.Length > 0)
                 {
@@ -289,7 +321,7 @@ namespace ECommerceWebshop.Services
                 }
                 else
                 {
-                    _logger.LogWarning($"⚠️ No invoice found for order {orderNumber}");
+                    _logger.LogWarning($"⚠️ No invoice found for order {orderNumber} in {_invoicesDirectory}");
                     return string.Empty;
                 }
             }
@@ -304,6 +336,12 @@ namespace ECommerceWebshop.Services
         {
             try
             {
+                if (string.IsNullOrEmpty(orderNumber))
+                {
+                    _logger.LogWarning("⚠️ OrderNumber is null or empty");
+                    return false;
+                }
+
                 var files = Directory.GetFiles(_invoicesDirectory, $"Factuur_{orderNumber}_*.pdf");
                 bool exists = files.Length > 0;
                 _logger.LogInformation($"Invoice exists for {orderNumber}: {exists}");
