@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ✅ ENSURE WEBROOT IS PROPERLY CONFIGURED
+builder.WebHost.UseWebRoot("wwwroot");
+
 // ✅ ADD LOGGING CONFIGURATION
 builder.Services.AddLogging(config =>
 {
@@ -71,6 +74,35 @@ builder.Services.AddScoped<InvoiceService>();
 // ============================================================
 
 var app = builder.Build();
+
+// ========== LOG ENVIRONMENT CONFIGURATION ==========
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation($"📁 ContentRootPath: {app.Environment.ContentRootPath}");
+logger.LogInformation($"📁 WebRootPath: {app.Environment.WebRootPath}");
+logger.LogInformation($"📁 IsDevelopment: {app.Environment.IsDevelopment()}");
+
+// Verify wwwroot/invoices directory exists
+var invoicesPath = Path.Combine(app.Environment.WebRootPath ??
+    Path.Combine(app.Environment.ContentRootPath, "wwwroot"), "invoices");
+logger.LogInformation($"📁 Invoices will be saved to: {invoicesPath}");
+
+if (!Directory.Exists(invoicesPath))
+{
+    try
+    {
+        Directory.CreateDirectory(invoicesPath);
+        logger.LogInformation($"✅ Created invoices directory: {invoicesPath}");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError($"❌ Failed to create invoices directory: {ex.Message}");
+    }
+}
+else
+{
+    logger.LogInformation($"✅ Invoices directory exists: {invoicesPath}");
+}
+// ============================================================
 
 // Seed de database
 using (var scope = app.Services.CreateScope())

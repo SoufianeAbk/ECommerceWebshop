@@ -27,8 +27,20 @@ namespace ECommerceWebshop.Services
                 _logger.LogWarning($"⚠️ QuestPDF License warning: {ex.Message}");
             }
 
-            // Invoices worden opgeslagen in wwwroot/invoices
-            _invoicesDirectory = Path.Combine(_environment.WebRootPath, "invoices");
+            // ✅ FIX: Check if WebRootPath is null or empty
+            _logger.LogInformation($"📁 Environment.WebRootPath: {_environment.WebRootPath}");
+            _logger.LogInformation($"📁 Environment.ContentRootPath: {_environment.ContentRootPath}");
+
+            if (string.IsNullOrEmpty(_environment.WebRootPath))
+            {
+                _logger.LogWarning("⚠️ WebRootPath is null or empty! Falling back to wwwroot folder.");
+                _invoicesDirectory = Path.Combine(_environment.ContentRootPath, "wwwroot", "invoices");
+            }
+            else
+            {
+                _invoicesDirectory = Path.Combine(_environment.WebRootPath, "invoices");
+            }
+
             _logger.LogInformation($"📁 Invoices directory configured: {_invoicesDirectory}");
 
             // Zorg dat de directory bestaat
@@ -37,11 +49,11 @@ namespace ECommerceWebshop.Services
                 if (!Directory.Exists(_invoicesDirectory))
                 {
                     Directory.CreateDirectory(_invoicesDirectory);
-                    _logger.LogInformation($"✅ Created invoices directory");
+                    _logger.LogInformation($"✅ Created invoices directory: {_invoicesDirectory}");
                 }
                 else
                 {
-                    _logger.LogInformation($"✅ Invoices directory already exists");
+                    _logger.LogInformation($"✅ Invoices directory already exists: {_invoicesDirectory}");
                 }
             }
             catch (Exception ex)
@@ -254,6 +266,7 @@ namespace ECommerceWebshop.Services
                 .GeneratePdf(filePath);
 
                 _logger.LogInformation($"✅ Invoice generated successfully: {fileName}");
+                _logger.LogInformation($"📁 Full path: {filePath}");
                 return filePath;
             }
             catch (Exception ex)

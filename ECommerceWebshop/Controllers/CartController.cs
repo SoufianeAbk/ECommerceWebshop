@@ -182,18 +182,49 @@ namespace ECommerceWebshop.Controllers
                 // ========== GENEREER PDF FACTUUR ==========
                 if (savedOrder != null)
                 {
+                    _logger.LogInformation($"🔍 Starting invoice generation for order: {savedOrder.OrderNumber}");
+
                     try
                     {
+                        _logger.LogInformation($"📄 Calling InvoiceService.GenerateInvoice()");
                         string invoicePath = _invoiceService.GenerateInvoice(savedOrder);
+
+                        _logger.LogInformation($"✅ Invoice generated successfully");
+                        _logger.LogInformation($"📁 Invoice path: {invoicePath}");
+
+                        // Verify file exists
+                        if (System.IO.File.Exists(invoicePath))
+                        {
+                            _logger.LogInformation($"✅ Invoice file verified: {invoicePath}");
+                            var fileInfo = new System.IO.FileInfo(invoicePath);
+                            _logger.LogInformation($"📊 Invoice file size: {fileInfo.Length} bytes");
+                        }
+                        else
+                        {
+                            _logger.LogWarning($"⚠️ Invoice file not found after generation: {invoicePath}");
+                        }
+
                         TempData["InvoicePath"] = invoicePath;
                         TempData["Success"] = $"Bestelling succesvol geplaatst! Uw factuur is gegenereerd.";
                     }
                     catch (Exception ex)
                     {
                         // Log de fout maar ga door met de bestelling
-                        _logger.LogError(ex, "Fout bij genereren factuur voor order {OrderNumber}", savedOrder.OrderNumber);
+                        _logger.LogError(ex, $"❌ Fout bij genereren factuur voor order {savedOrder.OrderNumber}");
+                        _logger.LogError($"Exception Type: {ex.GetType().Name}");
+                        _logger.LogError($"Exception Message: {ex.Message}");
+                        if (ex.InnerException != null)
+                        {
+                            _logger.LogError($"Inner Exception: {ex.InnerException.Message}");
+                        }
+
                         TempData["Warning"] = $"Bestelling succesvol, maar factuur kon niet worden gegenereerd: {ex.Message}";
                     }
+                }
+                else
+                {
+                    _logger.LogError("❌ Could not retrieve saved order from database");
+                    TempData["Warning"] = "Bestelling succesvol, maar factuur kon niet worden gegenereerd.";
                 }
                 // ============================================
 
