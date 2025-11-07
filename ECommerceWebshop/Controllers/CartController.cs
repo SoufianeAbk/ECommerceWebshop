@@ -11,11 +11,16 @@ namespace ECommerceWebshop.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly InvoiceService _invoiceService;
+        private readonly ILogger<CartController> _logger;
 
-        public CartController(ApplicationDbContext context, InvoiceService invoiceService)
+        public CartController(
+            ApplicationDbContext context,
+            InvoiceService invoiceService,
+            ILogger<CartController> logger)
         {
             _context = context;
             _invoiceService = invoiceService;
+            _logger = logger;
         }
 
         // GET: Cart
