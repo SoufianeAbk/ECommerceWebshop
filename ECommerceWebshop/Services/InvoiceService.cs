@@ -99,16 +99,17 @@ namespace ECommerceWebshop.Services
                                 column.Item().PaddingTop(30).Element(ComposePaymentInfo);
                             });
 
+                        // ✅ Correction ici
                         page.Footer()
                             .AlignCenter()
                             .Text(text =>
                             {
+                                text.DefaultTextStyle(x => x.FontSize(8).FontColor(Colors.Grey.Medium));
                                 text.Span("Bedankt voor uw bestelling! Voor vragen kunt u contact met ons opnemen via info@shopbe.com\n");
                                 text.Span("ECommerce Webshop - Nieuwstraat 123, 1000 Brussel - BTW: BE0123.456.789");
-                            })
-                            .FontSize(8)
-                            .FontColor(Colors.Grey.Medium);
+                            });
 
+                        // --- Sous-fonctions locales ---
                         void ComposeCustomerInfo(IContainer container)
                         {
                             container.ShowOnce().Column(column =>
