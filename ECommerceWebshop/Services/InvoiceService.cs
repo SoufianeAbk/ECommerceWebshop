@@ -8,14 +8,17 @@ namespace ECommerceWebshop.Services
     public class InvoiceService
     {
         private readonly string _invoicesDirectory;
+        private readonly IWebHostEnvironment _environment;
 
-        public InvoiceService()
+        public InvoiceService(IWebHostEnvironment environment)
         {
+            _environment = environment;
+
             // QuestPDF licentie instellen (Community licentie is gratis voor niet-commercieel gebruik)
             QuestPDF.Settings.License = LicenseType.Community;
 
-            // Invoices worden opgeslagen in /mnt/user-data/outputs/Invoices
-            _invoicesDirectory = "/mnt/user-data/outputs/Invoices";
+            // Invoices worden opgeslagen in wwwroot/invoices
+            _invoicesDirectory = Path.Combine(_environment.WebRootPath, "invoices");
 
             // Zorg dat de directory bestaat
             if (!Directory.Exists(_invoicesDirectory))
@@ -99,7 +102,6 @@ namespace ECommerceWebshop.Services
                                 column.Item().PaddingTop(30).Element(ComposePaymentInfo);
                             });
 
-                        // ✅ Correction ici
                         page.Footer()
                             .AlignCenter()
                             .Text(text =>
@@ -229,6 +231,12 @@ namespace ECommerceWebshop.Services
         {
             var files = Directory.GetFiles(_invoicesDirectory, $"Factuur_{orderNumber}_*.pdf");
             return files.Length > 0;
+        }
+
+        public string GetInvoiceFileName(string orderNumber)
+        {
+            var filePath = GetInvoicePath(orderNumber);
+            return !string.IsNullOrEmpty(filePath) ? Path.GetFileName(filePath) : string.Empty;
         }
     }
 }

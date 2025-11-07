@@ -173,7 +173,7 @@ namespace ECommerceWebshop.Controllers
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
 
-                // ========== NIEUWE CODE: GENEREER PDF FACTUUR ==========
+                // ========== GENEREER PDF FACTUUR ==========
                 try
                 {
                     string invoicePath = _invoiceService.GenerateInvoice(order);
@@ -183,9 +183,10 @@ namespace ECommerceWebshop.Controllers
                 catch (Exception ex)
                 {
                     // Log de fout maar ga door met de bestelling
+                    _logger.LogError(ex, "Fout bij genereren factuur voor order {OrderNumber}", order.OrderNumber);
                     TempData["Warning"] = $"Bestelling succesvol, maar factuur kon niet worden gegenereerd: {ex.Message}";
                 }
-                // ========================================================
+                // ============================================
 
                 // Clear cart
                 HttpContext.Session.Remove("Cart");
@@ -223,7 +224,8 @@ namespace ECommerceWebshop.Controllers
         {
             if (string.IsNullOrEmpty(orderNumber))
             {
-                return BadRequest("Bestelnummer is verplicht");
+                TempData["Error"] = "Bestelnummer is verplicht";
+                return RedirectToAction(nameof(Index));
             }
 
             string invoicePath = _invoiceService.GetInvoicePath(orderNumber);
@@ -234,10 +236,20 @@ namespace ECommerceWebshop.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var fileBytes = System.IO.File.ReadAllBytes(invoicePath);
-            var fileName = Path.GetFileName(invoicePath);
+            try
+            {
+                var fileBytes = System.IO.File.ReadAllBytes(invoicePath);
+                var fileName = _invoiceService.GetInvoiceFileName(orderNumber);
 
-            return File(fileBytes, "application/pdf", fileName);
+                // Return the PDF file for download
+                return File(fileBytes, "application/pdf", fileName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fout bij downloaden factuur {OrderNumber}", orderNumber);
+                TempData["Error"] = "Er is een fout opgetreden bij het downloaden van de factuur";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: Cart/GetCartCount
