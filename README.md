@@ -6,25 +6,24 @@ Dit project demonstreert een moderne online winkel met gebruikersbeheer, product
 📑 Inhoudsopgave
 
 
-Features
-Technologieën
-Installatie
-Gebruik
-Projectstructuur
-Database Schema
-Testaccounts
-Seed Data
-Design & Beveiliging
-Toekomstige Verbeteringen
-Licentie
-Contact
+- Features
+- Technologieën
+- Installatie
+- Gebruik
+- Projectstructuur
+- Database Schema
+- Testaccounts
+- Seed Data
+- Design & Beveiliging
+- Toekomstige Verbeteringen
+- Licentie
+- Contact
 
 🎯 Overzicht
 
 ECommerce Webshop is een volledig werkende online winkelapplicatie ontwikkeld met ASP.NET Core MVC.
 De applicatie biedt een complete shoppingervaring met gebruikersregistratie, productbeheer, winkelwagenfunctionaliteit en een admin dashboard voor beheer.
 
-✨ Features
 👥 Voor Klanten
 
 Gebruikersbeheer
@@ -220,14 +219,3 @@ Password hashing
 Anti-forgery tokens
 Role-based authorization
 SQL Injection & XSS bescherming
-
-🚧 Toekomstige Verbeteringen
-
-SQL Server database-implementatie
-Productreviews en ratings
-Wishlist functionaliteit
-Geavanceerde filters
-Order tracking
-Productvoorraadbeheer
-Exportfuncties (Excel/PDF)
-Gebruikersstatistieken
