@@ -173,18 +173,27 @@ namespace ECommerceWebshop.Controllers
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
 
+                // ========== RELOAD ORDER WITH NAVIGATION PROPERTIES ==========
+                var savedOrder = await _context.Orders
+                    .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                    .FirstOrDefaultAsync(o => o.Id == order.Id);
+
                 // ========== GENEREER PDF FACTUUR ==========
-                try
+                if (savedOrder != null)
                 {
-                    string invoicePath = _invoiceService.GenerateInvoice(order);
-                    TempData["InvoicePath"] = invoicePath;
-                    TempData["Success"] = $"Bestelling succesvol geplaatst! Uw factuur is gegenereerd.";
-                }
-                catch (Exception ex)
-                {
-                    // Log de fout maar ga door met de bestelling
-                    _logger.LogError(ex, "Fout bij genereren factuur voor order {OrderNumber}", order.OrderNumber);
-                    TempData["Warning"] = $"Bestelling succesvol, maar factuur kon niet worden gegenereerd: {ex.Message}";
+                    try
+                    {
+                        string invoicePath = _invoiceService.GenerateInvoice(savedOrder);
+                        TempData["InvoicePath"] = invoicePath;
+                        TempData["Success"] = $"Bestelling succesvol geplaatst! Uw factuur is gegenereerd.";
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log de fout maar ga door met de bestelling
+                        _logger.LogError(ex, "Fout bij genereren factuur voor order {OrderNumber}", savedOrder.OrderNumber);
+                        TempData["Warning"] = $"Bestelling succesvol, maar factuur kon niet worden gegenereerd: {ex.Message}";
+                    }
                 }
                 // ============================================
 

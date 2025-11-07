@@ -9,21 +9,45 @@ namespace ECommerceWebshop.Services
     {
         private readonly string _invoicesDirectory;
         private readonly IWebHostEnvironment _environment;
+        private readonly ILogger<InvoiceService> _logger;
 
-        public InvoiceService(IWebHostEnvironment environment)
+        public InvoiceService(IWebHostEnvironment environment, ILogger<InvoiceService> logger)
         {
             _environment = environment;
+            _logger = logger;
 
-            // QuestPDF licentie instellen (Community licentie is gratis voor niet-commercieel gebruik)
-            QuestPDF.Settings.License = LicenseType.Community;
+            try
+            {
+                // QuestPDF licentie instellen (Community licentie is gratis voor niet-commercieel gebruik)
+                QuestPDF.Settings.License = LicenseType.Community;
+                _logger.LogInformation("✅ QuestPDF Community License activated");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning($"⚠️ QuestPDF License warning: {ex.Message}");
+            }
 
             // Invoices worden opgeslagen in wwwroot/invoices
             _invoicesDirectory = Path.Combine(_environment.WebRootPath, "invoices");
+            _logger.LogInformation($"📁 Invoices directory configured: {_invoicesDirectory}");
 
             // Zorg dat de directory bestaat
-            if (!Directory.Exists(_invoicesDirectory))
+            try
             {
-                Directory.CreateDirectory(_invoicesDirectory);
+                if (!Directory.Exists(_invoicesDirectory))
+                {
+                    Directory.CreateDirectory(_invoicesDirectory);
+                    _logger.LogInformation($"✅ Created invoices directory");
+                }
+                else
+                {
+                    _logger.LogInformation($"✅ Invoices directory already exists");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"❌ Fout bij aanmaken invoices directory: {ex.Message}");
+                throw;
             }
         }
 
@@ -31,9 +55,27 @@ namespace ECommerceWebshop.Services
         {
             try
             {
+                _logger.LogInformation($"📄 Starting invoice generation for order {order.OrderNumber}");
+
+                // Validatie
+                if (order == null)
+                {
+                    throw new ArgumentNullException(nameof(order), "Order cannot be null");
+                }
+
+                if (order.OrderItems == null || !order.OrderItems.Any())
+                {
+                    _logger.LogWarning($"⚠️ Order {order.OrderNumber} has no items");
+                    throw new InvalidOperationException("Order must have at least one item");
+                }
+
+                _logger.LogInformation($"📦 Order has {order.OrderItems.Count} items");
+
                 // Genereer een unieke bestandsnaam
                 string fileName = $"Factuur_{order.OrderNumber}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
                 string filePath = Path.Combine(_invoicesDirectory, fileName);
+
+                _logger.LogInformation($"📝 Generating PDF to: {filePath}");
 
                 // Genereer PDF met QuestPDF
                 Document.Create(container =>
@@ -211,32 +253,68 @@ namespace ECommerceWebshop.Services
                 })
                 .GeneratePdf(filePath);
 
+                _logger.LogInformation($"✅ Invoice generated successfully: {fileName}");
                 return filePath;
             }
             catch (Exception ex)
             {
-                // Log de fout en gooi exception door
+                _logger.LogError($"❌ Fout bij genereren factuur: {ex.Message}");
+                _logger.LogError($"Stack trace: {ex.StackTrace}");
                 throw new Exception($"Fout bij genereren factuur: {ex.Message}", ex);
             }
         }
 
         public string GetInvoicePath(string orderNumber)
         {
-            // Zoek de factuur op basis van bestelnummer
-            var files = Directory.GetFiles(_invoicesDirectory, $"Factuur_{orderNumber}_*.pdf");
-            return files.Length > 0 ? files[0] : string.Empty;
+            try
+            {
+                var files = Directory.GetFiles(_invoicesDirectory, $"Factuur_{orderNumber}_*.pdf");
+                if (files.Length > 0)
+                {
+                    _logger.LogInformation($"✅ Found invoice for order {orderNumber}");
+                    return files[0];
+                }
+                else
+                {
+                    _logger.LogWarning($"⚠️ No invoice found for order {orderNumber}");
+                    return string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"❌ Error getting invoice path: {ex.Message}");
+                return string.Empty;
+            }
         }
 
         public bool InvoiceExists(string orderNumber)
         {
-            var files = Directory.GetFiles(_invoicesDirectory, $"Factuur_{orderNumber}_*.pdf");
-            return files.Length > 0;
+            try
+            {
+                var files = Directory.GetFiles(_invoicesDirectory, $"Factuur_{orderNumber}_*.pdf");
+                bool exists = files.Length > 0;
+                _logger.LogInformation($"Invoice exists for {orderNumber}: {exists}");
+                return exists;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"❌ Error checking invoice existence: {ex.Message}");
+                return false;
+            }
         }
 
         public string GetInvoiceFileName(string orderNumber)
         {
-            var filePath = GetInvoicePath(orderNumber);
-            return !string.IsNullOrEmpty(filePath) ? Path.GetFileName(filePath) : string.Empty;
+            try
+            {
+                var filePath = GetInvoicePath(orderNumber);
+                return !string.IsNullOrEmpty(filePath) ? Path.GetFileName(filePath) : string.Empty;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"❌ Error getting invoice filename: {ex.Message}");
+                return string.Empty;
+            }
         }
     }
 }

@@ -6,6 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ✅ ADD LOGGING CONFIGURATION
+builder.Services.AddLogging(config =>
+{
+    config.AddConsole();
+    config.AddDebug();
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -59,7 +66,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// ========== NIEUWE CODE: Registreer InvoiceService ==========
+// ========== Registreer InvoiceService ==========
 builder.Services.AddScoped<InvoiceService>();
 // ============================================================
 
