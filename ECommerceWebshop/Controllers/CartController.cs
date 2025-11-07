@@ -299,6 +299,87 @@ namespace ECommerceWebshop.Controllers
             return Json(cart.Sum(item => item.Quantity));
         }
 
+        // 🧪 TEST ACTION - Pour déboguer la génération de factures
+        [HttpGet("test-invoice")]
+        public IActionResult TestInvoice()
+        {
+            _logger.LogInformation("🧪 Starting invoice generation test...");
+
+            try
+            {
+                var testOrder = new Order
+                {
+                    OrderNumber = "TEST-" + Guid.NewGuid().ToString().Substring(0, 8),
+                    OrderDate = DateTime.Now,
+                    TotalAmount = 100.00m,
+                    FirstName = "Test",
+                    LastName = "User",
+                    Email = "test@example.com",
+                    Phone = "+32 123 456 789",
+                    Address = "123 Test Street",
+                    City = "Brussel",
+                    PostalCode = "1000",
+                    Status = "Testing",
+                    OrderItems = new List<OrderItem>
+                    {
+                        new OrderItem
+                        {
+                            ProductName = "Test Product 1",
+                            Price = 50.00m,
+                            Quantity = 1
+                        },
+                        new OrderItem
+                        {
+                            ProductName = "Test Product 2",
+                            Price = 50.00m,
+                            Quantity = 1
+                        }
+                    }
+                };
+
+                _logger.LogInformation("📄 Calling GenerateInvoice...");
+                string invoicePath = _invoiceService.GenerateInvoice(testOrder);
+
+                _logger.LogInformation($"✅ Invoice generated successfully");
+                _logger.LogInformation($"📁 Path: {invoicePath}");
+
+                if (System.IO.File.Exists(invoicePath))
+                {
+                    var fileInfo = new System.IO.FileInfo(invoicePath);
+                    return Ok(new
+                    {
+                        success = true,
+                        message = "Invoice generated successfully",
+                        path = invoicePath,
+                        fileName = Path.GetFileName(invoicePath),
+                        fileSizeBytes = fileInfo.Length,
+                        fileSizeMB = (fileInfo.Length / 1024.0 / 1024.0).ToString("F2")
+                    });
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        error = "File was not created",
+                        path = invoicePath
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "❌ Invoice generation test failed");
+                return BadRequest(new
+                {
+                    success = false,
+                    error = ex.Message,
+                    exceptionType = ex.GetType().Name,
+                    innerException = ex.InnerException?.Message,
+                    stackTrace = ex.StackTrace
+                });
+            }
+        }
+
         private List<CartItem> GetCart()
         {
             return HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
